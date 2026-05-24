@@ -1,12 +1,19 @@
 '''
 学习输入系统——物体的持续移动
-靠轮询检测输入，检测是否持续按下键盘/鼠标，使方块持续移动
+1. 靠轮询检测输入，检测是否持续按下键盘/鼠标，使方块持续移动
+2. 提供切换移动方式的按钮，点击后切换到另一种移动方式
 '''
 import pygame
 
 WINDOW_SIZE = (640, 480)    # 窗口大小
 CUBE_WIDTH = 50             # 方块宽度
 CUBE_HEIGHT = 50            # 方块高度
+
+def point_in_rectangle(rect, pos):
+    # 检查点是否在矩形内
+    #return rect.collidepoint(pos) # 直接使用矩形的碰撞检测方法
+    return rect.left <= pos[0] <= rect.right and rect.top <= pos[1] <= rect.bottom # 手动实现碰撞检测逻辑
+
 
 def handle_input():
     global running, useMouse, my_button_area
@@ -16,7 +23,7 @@ def handle_input():
         if event.type == pygame.MOUSEBUTTONDOWN:
             # 点击按钮切换移动方式
             if event.button == pygame.BUTTON_LEFT and \
-                my_button_area.collidepoint(event.pos):
+                point_in_rectangle(my_button_area, event.pos):
                 useMouse = not useMouse
 
 
